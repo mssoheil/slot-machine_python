@@ -174,6 +174,7 @@ def spin(balance: int):
 
 	(winnings, winningLines) = checkWinnings(slots, lines, bet, SYMBOL_VALUE)
 	print(f"You won {winnings}.")
+	# it's unpack|splat operator which is like spread operator of javascript
 	print("You won on lines:", *winningLines)
 	return winnings - totalBet
 
