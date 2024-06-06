@@ -38,7 +38,7 @@ def validateBetAmount(bet: str, balance: int, lines: int):
 	totalBet = int(bet) * lines
 
 	if totalBet > balance:
-		print("You do not have enough to bet that amount")
+		print(f"You do not have enough to bet that amount,Your total bet is ${totalBet} Your current balance is: ${balance}")
 		return False
 
 	
