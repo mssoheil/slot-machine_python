@@ -1,25 +1,13 @@
 MIN_BET = 1
 MAX_BET = 100
 
+from validate_util import validateNumeric
+
 MAX_LINES = 3
 MIN_LINES = 1
 
 MIN_DEPOSIT_AMOUNT = 1
 MAX_DEPOSIT_AMOUNT = 1000000
-
-def validateNumeric(number: str, errorText: str, min: int, max: int):
-	# isNumeric if float should be allowed
-	if not number.isdigit():
-			print("Please enter a valid number")
-			return False
-
-	number = int(number)
-	
-	if number < min or number > max:
-			print(errorText)
-			return False
-	
-	return True
 
 def validateDepositAmount(amount: str):
 	isValidNumber = validateNumeric(amount, f"Amount should be between {MIN_DEPOSIT_AMOUNT}-{MAX_DEPOSIT_AMOUNT}", MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT)
