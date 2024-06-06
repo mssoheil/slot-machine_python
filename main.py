@@ -29,11 +29,18 @@ def validateDepositAmount(amount: str):
 	
 	return True
 
-def validateBetAmount(bet: str):
+def validateBetAmount(bet: str, balance: int, lines: int):
 	isValidNumber = validateNumeric(bet, f"Bet should be between {MIN_BET}-{MAX_BET}", MIN_BET, MAX_BET)
 
 	if not isValidNumber:
 		return False
+	
+	totalBet = int(bet) * lines
+
+	if totalBet > balance:
+		print("You do not have enough to bet that amount")
+		return False
+
 	
 	return True
 	
@@ -74,11 +81,11 @@ def getNumberOfLines():
 
 	return int(numberOfLines)
 
-def getBet():
+def getBet(balance: int, lines: int):
 	while True:
 		betAmount = input(f"Enter the amount you want to bet on each line ({MIN_BET}-{MAX_BET})? ")
 
-		isBetAmountValid = validateBetAmount(betAmount)
+		isBetAmountValid = validateBetAmount(betAmount, balance, lines)
 
 		if not isBetAmountValid:
 			continue
@@ -91,7 +98,7 @@ def getBet():
 def main():
 	balance = deposit()
 	lines = getNumberOfLines()
-	bet = getBet()
+	bet = getBet(balance, lines)
 
 	totalBet = bet * lines
 
