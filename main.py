@@ -21,6 +21,13 @@ SYMBOL_COUNT = {
 	"D": 8,
 }
 
+SYMBOL_VALUE = {
+	"A": 5,
+	"B": 4,
+	"C": 3,
+	"D": 2,
+}
+
 def getAllSymbols(symbols: dict[str, int]):
 	allSymbols: list[str] = []
 
@@ -45,6 +52,24 @@ def getColumns(cols: int, rows: int, allSymbols: list[str]):
 		columns.append(column)
 
 	return columns
+
+def checkWinnings(columns: list[list[str]], lines: int, bet: int, values: dict[str, int]):
+	winnings = 0
+	winningLines : list[int] = []
+	for line in range(lines):
+		# all of the row symbols should be equal to the first column of that row symbol
+		symbol = columns[0][line]
+
+		for column in columns:
+			symbolToCheck = column[line]
+			if symbol != symbolToCheck:
+				break
+		else:
+			winnings += values[symbol] * bet
+			winningLines.append(line + 1)
+
+	return (winnings, winningLines)
+
 
 def getSlotMachineSpin(cols: int, rows: int, symbols: dict[str, int]):
 	allSymbols = getAllSymbols(symbols)
@@ -136,8 +161,7 @@ def getBet(balance: int, lines: int):
 	return int(betAmount)
 
 
-def main():
-	balance = deposit()
+def spin(balance: int):
 	lines = getNumberOfLines()
 	bet = getBet(balance, lines)
 
@@ -147,6 +171,24 @@ def main():
 
 	slots = getSlotMachineSpin(COLS, ROWS, SYMBOL_COUNT)
 	printSlotMachine(slots)
+
+	(winnings, winningLines) = checkWinnings(slots, lines, bet, SYMBOL_VALUE)
+	print(f"You won {winnings}.")
+	print("You won on lines:", *winningLines)
+	return winnings - totalBet
+
+def main():
+	balance = deposit()
+
+	while True:
+		print(f"Current balance is ${balance}")
+		play = input("Press enter to play. (q to quit).")
+		if play == "q":
+			break
+
+		balance += spin(balance)
+
+	print(f"You left with ${balance}")
 
 if __name__ == "__main__":
 	main()
